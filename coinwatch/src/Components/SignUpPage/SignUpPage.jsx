@@ -1,29 +1,29 @@
 import React from "react";
 
-const LandingSignUp = (props) => {
+const SignUpPage = (props) => {
   const { setSignUpButton, signUpButton } = props;
 
   const handleClick = () => {
-    setSignUpButton("active");
+    setSignUpButton("inactive");
     console.log("Sign up button is", signUpButton);
   };
 
   return (
     <div className="noto-sans-1">
       <h4>
-        Don't have an account?{" "}
+        Already have an account?{" "}
         <span>
           <button
             onClick={handleClick}
             className="font-bold underline underline-offset-auto"
           >
-            Sign up
+            Sign in
           </button>
         </span>{" "}
-        for free.
+        to your account.
       </h4>
     </div>
   );
 };
 
-export default LandingSignUp;
+export default SignUpPage;
