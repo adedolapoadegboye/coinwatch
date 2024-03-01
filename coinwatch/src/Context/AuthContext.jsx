@@ -5,6 +5,8 @@ import {
   signInWithRedirect,
   signOut,
   onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../Components/firebase";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +20,16 @@ export const AuthContextProvider = ({ children }) => {
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
     signInWithRedirect(auth, provider);
+  };
+
+  // Email and password sign in
+  const userSignIn = (email, password) => {
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+
+  // Create user with email and password
+  const createUser = (email, password) => {
+    return createUserWithEmailAndPassword(auth, email, password);
   };
 
   // General Sign out
@@ -39,7 +51,9 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ googleSignIn, generalSignOut, user }}>
+    <AuthContext.Provider
+      value={{ googleSignIn, generalSignOut, user, createUser, userSignIn }}
+    >
       {children}
     </AuthContext.Provider>
   );

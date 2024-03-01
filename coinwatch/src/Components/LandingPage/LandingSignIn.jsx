@@ -5,6 +5,7 @@ import { UserAuth } from "../../Context/AuthContext";
 const LandingSignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { userSignIn } = UserAuth();
 
   const isValidEmail = (email) => {
     // Regular expression for validating email addresses
@@ -21,6 +22,10 @@ const LandingSignIn = () => {
     }
   };
 
+  const passwordOnChange = (entry) => {
+    setPassword(entry);
+  };
+
   const { googleSignIn } = UserAuth();
 
   const handleGoogleSignIn = async () => {
@@ -31,27 +36,37 @@ const LandingSignIn = () => {
     }
   };
 
+  const handleUserSignIn = async () => {
+    try {
+      await userSignIn(email, password);
+      console.log("Sign in successful");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="noto-sans-1 flex flex-col w-full h-full items-left justify-center gap-2">
       <label className="noto-sans-1 font-bold">Email Address</label>
       <input
-        type="text"
-        value={email}
+        type="email"
+        // value={email}
         onChange={(e) => emailOnChange(e.target.value)}
         placeholder="abc@dummy.com"
         className="w-full border-2 py-2 px-2 rounded-lg"
       />
       <label className="noto-sans-1 font-bold">Password</label>
       <input
-        type="text"
+        type="password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e) => passwordOnChange(e.target.value)}
         placeholder="password"
         className="w-full border-2 py-2 px-2 rounded-lg"
       />
       <button
         type="submit"
         className="border w-full py-2 px-2 rounded-lg bg-black text-white"
+        onClick={handleUserSignIn}
       >
         Sign in
       </button>{" "}
