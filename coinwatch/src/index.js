@@ -7,6 +7,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import { AuthContextProvider } from "./Context/AuthContext";
 import Homepage from "./Components/DashboardPage/Pages/Homepage";
+import Protected from "./Components/Protection/Protected";
 
 function App() {
   return (
@@ -15,7 +16,14 @@ function App() {
         <Routes>
           <Route path="/">
             <Route index element={<LandingPage />} />
-            <Route path="homepage" element={<Homepage />} />
+            <Route
+              path="homepage"
+              element={
+                <Protected>
+                  <Homepage />
+                </Protected>
+              }
+            />
           </Route>
         </Routes>
       </AuthContextProvider>
