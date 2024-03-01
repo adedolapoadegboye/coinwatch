@@ -5,15 +5,20 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import LandingPage from "./Components/LandingPage/LandingPage";
+import { AuthContextProvider } from "./Context/AuthContext";
+import Homepage from "./Components/DashboardPage/Pages/Homepage";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/">
-          <Route index element={<LandingPage />} />
-        </Route>
-      </Routes>
+      <AuthContextProvider>
+        <Routes>
+          <Route path="/">
+            <Route index element={<LandingPage />} />
+            <Route path="homepage" element={<Homepage />} />
+          </Route>
+        </Routes>
+      </AuthContextProvider>
     </BrowserRouter>
   );
 }

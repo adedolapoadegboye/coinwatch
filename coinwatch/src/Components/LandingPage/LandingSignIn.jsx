@@ -1,21 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { auth, logInWithEmailAndPassword, signInWithGoogle } from "../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { UserAuth } from "../../Context/AuthContext";
 
 const LandingSignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, loading, error] = useAuthState(auth);
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (loading) {
-      // maybe trigger a loading screen
-      return;
+  const isValidEmail = (email) => {
+    // Regular expression for validating email addresses
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const emailOnChange = (email) => {
+    if (isValidEmail(email)) {
+      console.log("Valid email address");
+      setEmail(email);
+    } else {
+      console.log("Invalid email address");
     }
-    if (user) navigate("/");
-  }, [user, loading, navigate]);
+  };
+
+  const { googleSignIn } = UserAuth();
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await googleSignIn();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="noto-sans-1 flex flex-col w-full h-full items-left justify-center gap-2">
@@ -23,7 +37,7 @@ const LandingSignIn = () => {
       <input
         type="text"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => emailOnChange(e.target.value)}
         placeholder="abc@dummy.com"
         className="w-full border-2 py-2 px-2 rounded-lg"
       />
@@ -38,20 +52,19 @@ const LandingSignIn = () => {
       <button
         type="submit"
         className="border w-full py-2 px-2 rounded-lg bg-black text-white"
-        onClick={logInWithEmailAndPassword(email, password)}
       >
         Sign in
       </button>{" "}
       <button
         type="submit"
         className="border w-full py-2 px-2 rounded-lg bg-black text-white"
-        onClick={signInWithGoogle}
+        onClick={handleGoogleSignIn}
       >
-        Sign in with Google
+        Continue with Google
       </button>{" "}
-      <div>
+      <button className="border w-full py-2 px-2 rounded-lg bg-black text-white">
         <Link to="/reset">Forgot Password</Link>
-      </div>
+      </button>
     </div>
   );
 };

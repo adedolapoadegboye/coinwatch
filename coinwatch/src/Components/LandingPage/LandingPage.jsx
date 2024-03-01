@@ -1,13 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import LandingFooter from "./LandingFooter";
 import LandingHeader from "./LandingHeader";
 import LandingSignIn from "./LandingSignIn";
 import LandingSignUp from "./LandingSignUp";
 import SignUpPage from "../SignUpPage/SignUpPage";
 import SignUpForm from "../SignUpPage/SignUpForm";
+import { UserAuth } from "../../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
   const [signUpButton, setSignUpButton] = useState("inactive");
+  const { user } = UserAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user === null) {
+      console.log("The user object is null");
+    } else if (Object.keys(user).length === 0 && user.constructor === Object) {
+      console.log("The user object is empty");
+    } else {
+      navigate("/homepage");
+      console.log("The user object is populated");
+    }
+  }, [user, navigate]);
 
   const PageToRender = () => {
     if (signUpButton === "inactive") {
