@@ -1,11 +1,11 @@
 import React from "react";
 
 const LandingSignUp = (props) => {
-  const { setSignUpButton, signUpButton } = props;
+  const { setSignUpButton } = props;
 
   const handleClick = () => {
     setSignUpButton("active");
-    console.log("Sign up button is", signUpButton);
+    // console.log("Sign up button is", signUpButton);
   };
 
   return (
@@ -20,7 +20,7 @@ const LandingSignUp = (props) => {
             Sign up
           </button>
         </span>{" "}
-        for free.
+        here for free.
       </h4>
     </div>
   );

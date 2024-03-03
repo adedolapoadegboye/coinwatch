@@ -8,6 +8,8 @@ import LandingPage from "./Components/LandingPage/LandingPage";
 import { AuthContextProvider } from "./Context/AuthContext";
 import Homepage from "./Components/DashboardPage/Pages/Homepage";
 import Protected from "./Components/Protection/Protected";
+import SignUpVerification from "./Components/SignUpPage/SignUpVerification";
+import ResetPassword from "./Components/ResetPassword/ResetPassword";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Routes>
           <Route path="/">
             <Route index element={<LandingPage />} />
+            <Route path="verifyemail" element={<SignUpVerification />} />
+            <Route path="resetpassword" element={<ResetPassword />} />
             <Route
               path="homepage"
               element={

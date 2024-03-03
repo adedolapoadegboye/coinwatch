@@ -15,14 +15,16 @@ const LandingPage = () => {
 
   useEffect(() => {
     if (user === null) {
-      console.log("The user object is null");
+      // console.log("The user object is null");
     } else if (Object.keys(user).length === 0 && user.constructor === Object) {
-      console.log("The user object is empty");
+      // console.log("The user object is empty");
+    } else if (user.emailVerified) {
+      navigate("homepage");
+      // console.log("The user object is populated");
     } else {
-      navigate("/homepage");
-      console.log("The user object is populated");
+      navigate("/");
     }
-  }, [user, navigate]);
+  }, [navigate, user]);
 
   const PageToRender = () => {
     if (signUpButton === "inactive") {

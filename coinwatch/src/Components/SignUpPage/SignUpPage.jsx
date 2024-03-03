@@ -1,11 +1,11 @@
 import React from "react";
 
 const SignUpPage = (props) => {
-  const { setSignUpButton, signUpButton } = props;
+  const { setSignUpButton } = props;
 
   const handleClick = () => {
     setSignUpButton("inactive");
-    console.log("Sign up button is", signUpButton);
+    // console.log("Sign up button is", signUpButton);
   };
 
   return (
