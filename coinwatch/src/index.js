@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import "./App.css";
 // import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
@@ -10,6 +11,12 @@ import Homepage from "./Components/DashboardPage/Pages/Homepage";
 import Protected from "./Components/Protection/Protected";
 import SignUpVerification from "./Components/SignUpPage/SignUpVerification";
 import ResetPassword from "./Components/ResetPassword/ResetPassword";
+import Income from "./Components/DashboardPage/Pages/Income";
+import Expenses from "./Components/DashboardPage/Pages/Expenses";
+import Investments from "./Components/DashboardPage/Pages/Investments";
+import Settings from "./Components/DashboardPage/Pages/Settings";
+import Subscriptions from "./Components/DashboardPage/Pages/Subscriptions";
+import Donations from "./Components/DashboardPage/Pages/Donations";
 
 function App() {
   return (
@@ -29,6 +36,54 @@ function App() {
               }
             />
           </Route>
+          <Route
+            path="income"
+            element={
+              <Protected>
+                <Income />
+              </Protected>
+            }
+          ></Route>
+          <Route
+            path="expenses"
+            element={
+              <Protected>
+                <Expenses />
+              </Protected>
+            }
+          ></Route>
+          <Route
+            path="investments"
+            element={
+              <Protected>
+                <Investments />
+              </Protected>
+            }
+          ></Route>
+          <Route
+            path="donations"
+            element={
+              <Protected>
+                <Donations />
+              </Protected>
+            }
+          ></Route>
+          <Route
+            path="subscriptions"
+            element={
+              <Protected>
+                <Subscriptions />
+              </Protected>
+            }
+          ></Route>
+          <Route
+            path="settings"
+            element={
+              <Protected>
+                <Settings />
+              </Protected>
+            }
+          ></Route>
         </Routes>
       </AuthContextProvider>
     </BrowserRouter>
