@@ -9,7 +9,7 @@ import { RiMoneyDollarCircleFill } from "react-icons/ri";
 
 const Navbar = () => {
   return (
-    <nav className="nav-white flex flex-col gap-4 lg:gap-6 noto-sans-1 h-screen px-2 py-2">
+    <nav className="nav-white flex flex-col gap-4 noto-sans-1 h-screen">
       <NavLink
         to="/"
         className={({ isActive, isPending, isTransitioning }) =>
@@ -20,7 +20,7 @@ const Navbar = () => {
           ].join(" ")
         }
       >
-        <RiMoneyDollarCircleFill size={60} />
+        <RiMoneyDollarCircleFill size={50} />
       </NavLink>
       <NavLink
         to="/homepage"

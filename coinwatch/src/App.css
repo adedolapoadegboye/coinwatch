@@ -38,6 +38,25 @@
   }
 }
 
+
+.inter-heading {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  font-variation-settings:
+    "slnt"0;
+}
+
+.inter-heading-2 {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "slnt"0;
+}
+
 .noto-sans-1 {
   font-family: "Noto Sans", sans-serif;
   font-optical-sizing: auto;
@@ -167,6 +186,12 @@
 }
 
 .nav-white :hover {
+  color: #ffffff;
+  background-color: #000000;
+  border-radius: 1rem;
+}
+
+.hover {
   color: #ffffff;
   background-color: #000000;
   border-radius: 1rem;

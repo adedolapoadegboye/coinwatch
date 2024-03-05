@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-import { FaToggleOn, FaToggleOff } from "react-icons/fa";
+import { FaMoon, FaRegMoon } from "react-icons/fa";
 
 const ThemeButton = () => {
   const [theme, setTheme] = useState("white");
@@ -18,13 +18,13 @@ const ThemeButton = () => {
     if (theme === "white") {
       return (
         <button onClick={handleBlackTheme}>
-          <FaToggleOff />
+          <FaMoon size={25} />
         </button>
       );
     } else if (theme === "black") {
       return (
         <button onClick={handleWhiteTheme}>
-          <FaToggleOn />
+          <FaRegMoon size={25} />
         </button>
       );
     }
