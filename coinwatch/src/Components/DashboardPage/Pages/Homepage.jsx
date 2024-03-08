@@ -27,17 +27,17 @@ const Homepage = () => {
   }, [user, navigate]);
 
   return (
-    <div className="flex noto-sans-1 w-screen lg:h-screen lg:fixed px-2 py-4 lg:py-2 ">
+    <div className="flex noto-sans-1 w-screen lg:h-screen lg:fixed px-2 py-4 lg:py-2 relative">
       <div className="flex-col hidden md:flex relative border-r-2 border-gray-200">
         <Navbar />
       </div>{" "}
       <div className="flex flex-col gap-4 px-2 py-2 w-full h-full">
-        <div className="flex w-full h-fit justify-between border-b-0 border-gray-200">
+        <div className="flex w-full h-fit justify-between border-b-0 border-gray-200 ">
           <h1 className="inter-heading text-3xl lg:text-3xl font-old capitalize text-black leading-snug tracking-tight mb-2 sm:mb-0 px-2 py-2">
             Welcome, {user?.displayName}
           </h1>
-          <div className="flex justify-center items-center gap-4">
-            <div className="hidden md:flex">
+          <div className="flex justify-center items-top gap-4 absolute top-8 right-8 flex-end">
+            <div className="z-5 hidden lg:flex">
               {" "}
               <TimeRange />
             </div>
@@ -45,7 +45,7 @@ const Homepage = () => {
               {" "}
               <SignOutButton />
             </div>
-            <div className="hidden md:flex">
+            <div className="hidden lg:flex items-start justify-center pt-2">
               <ThemeButton />
             </div>
           </div>

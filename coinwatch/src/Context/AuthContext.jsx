@@ -61,7 +61,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log("Current User:", currentUser);
+      // console.log("Current User:", currentUser);
     });
     return () => {
       unsubscribe();
@@ -73,9 +73,9 @@ export const AuthContextProvider = ({ children }) => {
     try {
       return updateProfile(auth.currentUser, { displayName: name });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     } finally {
-      console.log("Display name updated");
+      // console.log("Display name updated");
     }
   };
 
