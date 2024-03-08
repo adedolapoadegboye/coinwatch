@@ -18,13 +18,13 @@ const ThemeButton = () => {
     if (theme === "white") {
       return (
         <button onClick={handleBlackTheme}>
-          <FaMoon size={20} />
+          <FaMoon size={20} className="hover:scale-125" />
         </button>
       );
     } else if (theme === "black") {
       return (
         <button onClick={handleWhiteTheme}>
-          <FaRegMoon size={20} />
+          <FaRegMoon size={20} className="hover:scale-125" />
         </button>
       );
     }

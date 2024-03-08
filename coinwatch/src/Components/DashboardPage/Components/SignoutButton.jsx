@@ -14,7 +14,7 @@ const SignOutButton = () => {
 
   return (
     <button
-      className="hover:text-white hover:bg-black rounded-2xl border-gray-300 inter-heading-2 border-2 md:border-0 text-lg lg:text-sm font-light text-black capitalize leading-snug tracking-tight mb-2 sm:mb-0 px-2 py-3"
+      className="active-white-timerange hover:scale-125 rounded-2xl border-gray-300 inter-heading-2 border-2 md:border-2 text-lg lg:text-sm font-light text-black capitalize leading-snug tracking-tight mb-2 sm:mb-0 px-2 py-3"
       onClick={handleSignOut}
     >
       Sign out

@@ -91,6 +91,30 @@
   color: #ffffff
 }
 
+.active-white-timerange {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+
+  @media (min-width: 768px) {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  border-width: 0px;
+  border-radius: 1rem;
+  vertical-align: middle;
+  align-items: center;
+  font-weight: 700;
+
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  background-color: #000000;
+  color: #ffffff
+}
+
 .inactive-white {
   display: flex;
   width: fit-content;

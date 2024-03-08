@@ -9,7 +9,7 @@ import { RiMoneyDollarCircleFill } from "react-icons/ri";
 
 const Navbar = () => {
   return (
-    <nav className="nav-white flex flex-col gap-4 noto-sans-1 h-screen">
+    <nav className="nav-white flex flex-col gap-4 noto-sans-1 h-screen pe-5">
       <NavLink
         to="/"
         className={({ isActive, isPending, isTransitioning }) =>
