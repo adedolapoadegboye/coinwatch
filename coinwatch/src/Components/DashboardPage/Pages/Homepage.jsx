@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ThemeButton from "../Components/ThemeButton";
 import Navbar from "../Components/Navbar";
-
+import Add from "../Components/Add";
 import AddButton from "../Components/AddButton";
 import AnalysisOverview from "../Components/AnalysisOverview";
 import SummaryOverview from "../Components/SummaryOverview";
@@ -14,6 +14,9 @@ import TimeRange from "../Components/TimeRange";
 const Homepage = () => {
   const { user } = UserAuth();
   const navigate = useNavigate();
+  const [add, setAdd] = useState(false);
+
+  // console.log("Homepage", add);
 
   useEffect(() => {
     if (user === null) {
@@ -26,6 +29,18 @@ const Homepage = () => {
     }
   }, [user, navigate]);
 
+  const renderAddPage = () => {
+    if (add) {
+      return (
+        <div className="w-screen h-screen absolute z-50">
+          <Add setAdd={setAdd} />
+        </div>
+      );
+    } else {
+      return <></>;
+    }
+  };
+
   return (
     <div className="flex noto-sans-1 w-screen lg:h-screen lg:fixed px-2 py-4 lg:py-2 relative">
       <div className="flex-col hidden md:flex relative border-r-2 border-gray-200">
@@ -36,7 +51,7 @@ const Homepage = () => {
           <h1 className="inter-heading text-3xl lg:text-3xl font-old capitalize text-black leading-snug tracking-tight mb-2 sm:mb-0 px-2 py-2">
             Welcome, {user?.displayName}
           </h1>
-          <div className="flex justify-center items-top gap-4 absolute top-8 right-8 flex-end">
+          <div className="flex justify-center items-top gap-4 absolute top-8 lg:top-6 right-6 flex-end">
             <div className="z-5 hidden lg:flex">
               {" "}
               <TimeRange />
@@ -59,10 +74,11 @@ const Homepage = () => {
         <div className="flex flex-col w-full h-full justify-start">
           <AnalysisOverview />
         </div>
-        <div className="flex justify-end pb-2 sticky bottom-0 left-0 z-50">
-          <AddButton />
+        <div className="flex justify-end pb-2 sticky bottom-0 left-0 z-10">
+          <AddButton setAdd={setAdd} add={add} />
         </div>
       </div>
+      {renderAddPage()}
     </div>
   );
 };
