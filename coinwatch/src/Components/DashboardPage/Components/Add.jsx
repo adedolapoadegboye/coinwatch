@@ -7,15 +7,16 @@ import EntryTypeSubscriptions from "../Subcomponents/EntryTypeSubscriptions";
 import EntryTypeInvestments from "../Subcomponents/EntryTypeInvestments";
 
 const Add = ({ setAdd, add }) => {
-  const [selectedValue, setSelectedValue] = useState("Income");
-  const [dataFromIncomeForm, setDataFromIncomeForm] = useState(null);
-  const [handleErrorMessage, setHandleErrorMessage] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("Income"); // State to manage the selected value from the dropdown
+  const [dataFromIncomeForm, setDataFromIncomeForm] = useState(null); // State to store data from the income form
+  const [handleErrorMessage, setHandleErrorMessage] = useState(false); // State to handle error message display
 
   // Function to handle closing the Add component
   const handleClose = () => {
     setAdd(false);
   };
 
+  // Function to display error message if needed
   const handleError = () => {
     if (handleErrorMessage) {
       return (
@@ -24,6 +25,7 @@ const Add = ({ setAdd, add }) => {
         </h1>
       );
     } else {
+      return null;
     }
   };
 
@@ -38,6 +40,7 @@ const Add = ({ setAdd, add }) => {
     }
   };
 
+  // Function to handle selection change in the dropdown
   const handleSelect = (value) => {
     setSelectedValue(value);
   };
@@ -50,6 +53,7 @@ const Add = ({ setAdd, add }) => {
     "Subscriptions",
   ];
 
+  // Function to render the appropriate input form based on the selected value
   const renderInputForm = () => {
     if (selectedValue === "Income") {
       return <EntryTypeIncome handleIncomeForm={handleIncomeForm} />;
@@ -64,6 +68,7 @@ const Add = ({ setAdd, add }) => {
     }
   };
 
+  // Function to handle income form data
   const handleIncomeForm = (incomeDataForm) => {
     setDataFromIncomeForm(incomeDataForm);
   };
@@ -95,7 +100,7 @@ const Add = ({ setAdd, add }) => {
             Close
           </button>
         </div>
-        {handleError()}
+        {handleError()} {/* Display error message if needed */}
       </div>
     </div>
   );

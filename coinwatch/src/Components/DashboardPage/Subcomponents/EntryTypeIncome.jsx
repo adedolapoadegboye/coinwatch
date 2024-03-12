@@ -3,40 +3,43 @@ import EntryType from "./EntryType";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+/**
+ * Component for adding income entries.
+ * @param {Object} props - Component properties.
+ * @param {Function} props.handleIncomeForm - Function to handle form data for income entries.
+ */
 const EntryTypeIncome = ({ handleIncomeForm }) => {
+  // Calculate the first day of the current month
   const firstDayOfMonth = new Date();
-  firstDayOfMonth.setDate(1); // Set the date to the first day of the month
+  firstDayOfMonth.setDate(1);
+
+  // Initialize state for form data and date picker visibility
   const [formData, setFormData] = useState({
-    date: firstDayOfMonth, // Set default value for date field
+    date: firstDayOfMonth,
     amount: "",
-    category: "Salary/Wage", // Set default value for category field
+    category: "Salary/Wage",
     notes: "",
   });
+  const [dateButton, setDateButton] = useState(false);
+  const [startDate, setStartDate] = useState(firstDayOfMonth);
 
+  // Handle form data changes and trigger the provided function
   useEffect(() => {
-    // Trigger the function to handle income form data whenever formData changes
-    console.log(formData);
     handleIncomeForm(formData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData]);
+  }, [formData, handleIncomeForm]);
 
+  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-    // dumbRender();
+    setFormData({ ...formData, [name]: value });
   };
 
+  // Handle category input changes
   const handleCategoryInputChange = (value) => {
-    setFormData({
-      ...formData,
-      category: value,
-    });
-    // dumbRender();
+    setFormData({ ...formData, category: value });
   };
 
+  // Options for income categories
   const options = [
     "Salary/Wage",
     "Passive Income",
@@ -48,44 +51,27 @@ const EntryTypeIncome = ({ handleIncomeForm }) => {
     "Others",
   ];
 
-  //   const [endDate, setEndDate] = useState(new Date());
-  const [dateButton, setDateButton] = useState(false);
-  const [startDate, setStartDate] = useState(firstDayOfMonth);
-
-  // Calculate the first day of the current month
-
-  // Function to handle date selection
+  // Handle date selection
   const handleDateChange = (date) => {
-    // const [start, end] = dates;
     setStartDate(date);
-    // setEndDate(end);
-    setFormData({
-      ...formData,
-      date: date,
-    });
-    // dumbRender();
+    setFormData({ ...formData, date: date });
   };
 
-  // Function to toggle date picker visibility
+  // Toggle date picker visibility
   const toggleDatePicker = () => {
     setDateButton(!dateButton);
   };
 
-  // Function to format date in "MMMM d, yyyy" format
+  // Format date in "MMMM d, yyyy" format
   const formatDate = (date) => {
-    // Check if date is null or undefined
     if (!date) return "";
-
-    // Options for date formatting
     const options = { month: "long", day: "numeric", year: "numeric" };
-
-    // Format the date using toLocaleDateString() method
     return new Date(date).toLocaleDateString("en-US", options);
   };
 
   return (
-    <div className="flex flex-col gap-4 w-full h-full">
-      <div className="flex flex-col justify-center lg:items-center h-fit lg:flex-row gap-2 w-full">
+    <div className="flex flex-col gap-4 w-full h-full relative">
+      <div className="flex flex-col justify-center lg:items-center h-fit lg:flex-row gap-2 w-full z-10">
         <label
           htmlFor="name"
           className="text-gray-600 text-sm w-1/3 text-nowrap"
@@ -100,16 +86,14 @@ const EntryTypeIncome = ({ handleIncomeForm }) => {
             {`${formatDate(startDate)}`}
           </button>
           {dateButton && (
-            <div className="flex justify-center gap-2 z-20">
+            <div className="origin-center	top-10 right-2 lg:right-0 absolute mt-2 me-2 lg:me-5 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
               <DatePicker
                 showIcon
                 selected={startDate}
                 onChange={handleDateChange}
                 startDate={startDate}
-                // endDate={endDate}
                 inline
-                // minDate={new Date()} // Disable past dates
-                maxDate={new Date()} // Set maximum date to one week from start date
+                maxDate={new Date()}
               />
             </div>
           )}

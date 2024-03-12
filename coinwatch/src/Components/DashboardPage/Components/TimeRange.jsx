@@ -7,11 +7,16 @@ const TimeRange = () => {
   const firstDayOfMonth = new Date();
   firstDayOfMonth.setDate(1); // Set the date to the first day of the month
 
+  // State to manage the selected start date
   const [startDate, setStartDate] = useState(firstDayOfMonth);
+
+  // State to manage the selected end date
   const [endDate, setEndDate] = useState(new Date());
+
+  // State to manage the visibility of the date picker
   const [dateButton, setDateButton] = useState(false);
 
-  // Function to handle date selection
+  // Function to handle date range selection
   const handleDateChange = (dates) => {
     const [start, end] = dates;
     setStartDate(start);
@@ -51,7 +56,6 @@ const TimeRange = () => {
           endDate={endDate}
           selectsRange
           inline
-          // minDate={new Date()} // Disable past dates
           maxDate={new Date()} // Set maximum date to one week from start date
         />
       )}

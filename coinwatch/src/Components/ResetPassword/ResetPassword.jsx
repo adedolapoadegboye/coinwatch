@@ -4,19 +4,32 @@ import LandingFooter from "../LandingPage/LandingFooter";
 import LandingHeader from "../LandingPage/LandingHeader";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Component for resetting user password.
+ * @returns {JSX.Element} - Reset password form.
+ */
 const ResetPassword = () => {
-  const [email, setEmail] = useState("");
-  const [formError, setFormError] = useState();
-  const [emailSuccess, setEmailSuccess] = useState(false);
+  const [email, setEmail] = useState(""); // State for email input
+  const [formError, setFormError] = useState(); // State for form error
+  const [emailSuccess, setEmailSuccess] = useState(false); // State for email success
   const navigate = useNavigate();
-  const { userPasswordReset } = UserAuth();
+  const { userPasswordReset } = UserAuth(); // Accessing password reset function from context
 
+  /**
+   * Function to validate email format.
+   * @param {string} email - Email address to validate.
+   * @returns {boolean} - Whether the email is valid or not.
+   */
   const isValidEmail = (email) => {
     // Regular expression for validating email addresses
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+  /**
+   * Function to handle email input change.
+   * @param {string} email - Email address entered in the input field.
+   */
   const emailOnChange = (email) => {
     if (isValidEmail(email)) {
       console.log("Valid email address");
@@ -26,6 +39,9 @@ const ResetPassword = () => {
     }
   };
 
+  /**
+   * Function to handle password reset email submission.
+   */
   const handleResetEmail = async () => {
     try {
       await userPasswordReset(email);
@@ -34,10 +50,13 @@ const ResetPassword = () => {
     } catch (error) {
       setFormError(error);
       console.log(error);
-    } finally {
     }
   };
 
+  /**
+   * Function to render error messages or success message based on form status.
+   * @returns {JSX.Element} - Error or success message.
+   */
   const handleError = () => {
     if (formError) {
       return (
@@ -56,6 +75,9 @@ const ResetPassword = () => {
     }
   };
 
+  /**
+   * Function to navigate back to home page.
+   */
   const handleExit = () => {
     navigate("/");
   };
@@ -71,7 +93,6 @@ const ResetPassword = () => {
           <label className="noto-sans-1 font-bold">Email Address</label>
           <input
             type="email"
-            // value={email}
             onChange={(e) => emailOnChange(e.target.value)}
             placeholder="abc@dummy.com"
             className="w-full border-2 py-2 px-2 rounded-lg"

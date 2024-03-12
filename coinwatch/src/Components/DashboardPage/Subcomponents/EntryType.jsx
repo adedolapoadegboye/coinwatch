@@ -1,9 +1,19 @@
 import React, { useState } from "react";
 
+/**
+ * Component for selecting an entry type from a dropdown list.
+ * @param {Object} props - Component properties.
+ * @param {Array} props.options - An array of options to be displayed in the dropdown list.
+ * @param {Function} props.onSelect - A function to handle selection of an option.
+ */
 const EntryType = ({ options, onSelect }) => {
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [isOpen, setIsOpen] = useState(false);
 
+  /**
+   * Function to handle selection of an option.
+   * @param {string} option - The selected option.
+   */
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
     setIsOpen(false);
