@@ -11,7 +11,7 @@ const SummaryOverview = () => {
     <div>
       {/* Title */}
       <div className="flex justify-start">
-        <h2 className="inter-heading-2 text-xl capitalize text-black leading-snug tracking-tight mb-2 sm:mb-0 px-2 py-2">
+        <h2 className="inter-heading-2 text-xl capitalize leading-snug tracking-tight mb-2 sm:mb-0 px-2 py-2">
           Summary
         </h2>
       </div>

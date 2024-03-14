@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const TimeRange = () => {
+const TimeRange = (props) => {
+  const { theme } = props;
   // Calculate the first day of the current month
   const firstDayOfMonth = new Date();
   firstDayOfMonth.setDate(1); // Set the date to the first day of the month
@@ -43,7 +44,7 @@ const TimeRange = () => {
   return (
     <div className="flex flex-col gap-2 w-full justify-center items-center">
       <button
-        className="active-white-timerange w-[300px] hover:bg-black rounded-2xl border-gray-300 inter-heading-2 border-2 md:border-2 text-lg lg:text-sm font-light text-black capitalize leading-snug tracking-tight mb-2 sm:mb-0 px-2 py-3"
+        className={`active-${theme}-timerange timerange-${theme} w-[300px] rounded-2xl border-gray-300 inter-heading-2 border-2 md:border-2 text-lg lg:text-sm font-light capitalize leading-snug tracking-tight mb-2 sm:mb-0 px-2 py-3`}
         onClick={toggleDatePicker}
       >
         {`${formatDate(startDate)} - ${formatDate(endDate)}`}

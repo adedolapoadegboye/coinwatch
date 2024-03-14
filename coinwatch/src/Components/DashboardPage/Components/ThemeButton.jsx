@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaMoon, FaRegMoon } from "react-icons/fa";
 
-const ThemeButton = () => {
-  // State to track the current theme
-  const [theme, setTheme] = useState("white");
-
+const ThemeButton = (props) => {
+  const { theme, setTheme } = props;
   // Function to handle theme change to dark
   const handleBlackTheme = () => {
     setTheme("black");
+    console.log(theme);
   };
 
   // Function to handle theme change to light
   const handleWhiteTheme = () => {
     setTheme("white");
+    console.log(theme);
   };
 
   // Function to conditionally render the button based on the current theme

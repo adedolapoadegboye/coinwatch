@@ -14,7 +14,7 @@ const AddButton = (props) => {
     // Button component to trigger the add action
     <button onClick={handleClick} className="hover:scale-125">
       {/* Icon to represent the add action */}
-      <IoAddCircle size={60} color="black" />
+      <IoAddCircle size={60} />
     </button>
   );
 };
