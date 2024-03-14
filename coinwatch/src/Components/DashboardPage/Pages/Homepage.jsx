@@ -9,11 +9,15 @@ import AddButton from "../Components/AddButton";
 import AnalysisOverview from "../Components/AnalysisOverview";
 import SummaryOverview from "../Components/SummaryOverview";
 import TimeRange from "../Components/TimeRange";
+import MobileNav from "../Components/MobileNav";
+import MobileNavButton from "../Components/MobileNavButton";
 
 const Homepage = () => {
   const { user } = UserAuth();
   const navigate = useNavigate();
   const [add, setAdd] = useState(false);
+  const [mobileMenu, setMobileMenu] = useState(false);
+
   // State to track the current theme
   const [theme, setTheme] = useState("black");
 
@@ -41,6 +45,22 @@ const Homepage = () => {
     }
   };
 
+  const renderMobileMenuPage = () => {
+    if (mobileMenu) {
+      return (
+        <div className="w-screen h-screen absolute z-50">
+          <MobileNav
+            theme={theme}
+            setMobileMenu={setMobileMenu}
+            mobileMenu={mobileMenu}
+          />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  };
+
   return (
     <div
       className={`flex noto-sans-1 w-screen lg:h-screen lg:fixed px-2 py-4 lg:py-2 relative ${dynamicThemeClass}`}
@@ -50,7 +70,11 @@ const Homepage = () => {
         className="flex-col hidden md:flex relative border-r-2 border-gray-200
       "
       >
-        <Navbar theme={theme} />
+        <Navbar
+          theme={theme}
+          setMobileMenu={setMobileMenu}
+          mobileMenu={mobileMenu}
+        />
       </div>
       <div className="flex flex-col gap-4 px-2 py-2 w-full h-full">
         {/* Render user welcome message and action buttons */}
@@ -92,15 +116,26 @@ const Homepage = () => {
         >
           <AnalysisOverview />
         </div>
-        {/* Render the AddButton component */}
-        <div
-          className={`flex justify-end pb-2 sticky bottom-0 left-0 z-10 ${dynamicTextClass}`}
-        >
-          <AddButton setAdd={setAdd} add={add} />
+        <div className="flex justify-between lg:justify-end sticky bottom-0 left-0 z-10">
+          <div
+            className={`lg:hidden flex justify-start pb-2 sticky bottom-0 left-0 z-10 ${dynamicTextClass}`}
+          >
+            <MobileNavButton
+              setMobileMenu={setMobileMenu}
+              mobileMenu={mobileMenu}
+            />
+          </div>
+          {/* Render the AddButton component */}
+          <div
+            className={`flex justify-end pb-2 sticky bottom-0 left-0 z-10 ${dynamicTextClass}`}
+          >
+            <AddButton setAdd={setAdd} add={add} />
+          </div>
         </div>
       </div>
       {/* Render the Add component if 'add' state is true */}
       {renderAddPage()}
+      {renderMobileMenuPage()}
     </div>
   );
 };
