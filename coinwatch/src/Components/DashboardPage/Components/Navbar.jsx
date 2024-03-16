@@ -121,7 +121,7 @@ const Navbar = (props) => {
         <IoSettings />
         Settings
       </NavLink>
-      <div className="flex flex-col pb-10 lg:hidden w-full h-full justify-end">
+      <div className="flex flex-col pb-10 md:hidden w-full h-full justify-end">
         {" "}
         <button
           onClick={handleClose}

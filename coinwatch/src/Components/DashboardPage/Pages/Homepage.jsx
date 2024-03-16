@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SignOutButton from "../Components/SignoutButton";
 import { UserAuth } from "../../../Context/AuthContext";
+import { UserData } from "../../../Context/UserDataContext";
 import { useNavigate } from "react-router-dom";
 import ThemeButton from "../Components/ThemeButton";
 import Navbar from "../Components/Navbar";
@@ -14,23 +15,52 @@ import MobileNavButton from "../Components/MobileNavButton";
 
 const Homepage = () => {
   const { user } = UserAuth();
+  const { registerUserDoc, readUserData, readUserInfo } = UserData();
   const navigate = useNavigate();
   const [add, setAdd] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
 
   // State to track the current theme
   const [theme, setTheme] = useState("black");
-
-  console.log(theme);
+  const [userData, setUserData] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
+  // console.log(theme);
   const dynamicThemeClass = `bg-${theme === "white" ? "white" : "black"}`;
   const dynamicTextClass = `text-${theme === "white" ? "black" : "white"}`;
 
+  const handleUserData = async () => {
+    const userData = await readUserData();
+    if (userData) {
+      console.log("User data:", userData);
+      setUserData(userData);
+      // Now you can access userData properties like userData.timestamp, userData.user_income_data, etc.
+    } else {
+      console.log("No user data found or error occurred.");
+    }
+  };
+
+  const handleUserInfo = async () => {
+    const userInfo = await readUserInfo();
+    if (userInfo) {
+      console.log("User Info:", userInfo);
+      setUserInfo(userInfo);
+      // Now you can access userInfo properties like userData.timestamp, userData.user_income_data, etc.
+    } else {
+      console.log("No user data found or error occurred.");
+    }
+  };
+
   // Redirect the user to the login page if not authenticated or the user object is null
   useEffect(() => {
-    if (!user) {
+    if (user) {
+      registerUserDoc();
+      handleUserData();
+      handleUserInfo();
+    } else if (!user) {
       navigate("/");
     }
-  }, [user, navigate]);
+  }, [user, navigate, registerUserDoc]);
+  console.log(userData, userInfo);
 
   // Render the Add component if the 'add' state is true
   const renderAddPage = () => {
@@ -108,7 +138,7 @@ const Homepage = () => {
         <div
           className={`flex flex-col w-full h-fit justify-start ${dynamicTextClass}`}
         >
-          <SummaryOverview />
+          <SummaryOverview userData={userData} />
         </div>
         {/* Render the AnalysisOverview component */}
         <div
@@ -118,7 +148,7 @@ const Homepage = () => {
         </div>
         <div className="flex justify-between lg:justify-end sticky bottom-0 left-0 z-10">
           <div
-            className={`lg:hidden flex justify-start pb-2 sticky bottom-0 left-0 z-10 ${dynamicTextClass}`}
+            className={`md:hidden flex justify-start pb-4 sticky bottom-0 left-0 z-10 ${dynamicTextClass}`}
           >
             <MobileNavButton
               setMobileMenu={setMobileMenu}

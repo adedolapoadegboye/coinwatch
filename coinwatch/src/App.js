@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Routes, Route } from "react-router-dom";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import { AuthContextProvider } from "./Context/AuthContext";
+import { UserDataProvider } from "./Context/UserDataContext";
 import Homepage from "./Components/DashboardPage/Pages/Homepage";
 import Protected from "./Components/Protection/Protected";
 import SignUpVerification from "./Components/SignUpPage/SignUpVerification";
@@ -20,69 +21,71 @@ import Donations from "./Components/DashboardPage/Pages/Donations";
 function App() {
   return (
     <AuthContextProvider>
-      <Routes>
-        <Route path="/">
-          <Route index element={<LandingPage />} />
-          <Route path="verifyemail" element={<SignUpVerification />} />
-          <Route path="resetpassword" element={<ResetPassword />} />
+      <UserDataProvider>
+        <Routes>
+          <Route path="/">
+            <Route index element={<LandingPage />} />
+            <Route path="verifyemail" element={<SignUpVerification />} />
+            <Route path="resetpassword" element={<ResetPassword />} />
+            <Route
+              path="homepage"
+              element={
+                <Protected>
+                  <Homepage />
+                </Protected>
+              }
+            />
+          </Route>
           <Route
-            path="homepage"
+            path="income"
             element={
               <Protected>
-                <Homepage />
+                <Income />
               </Protected>
             }
-          />
-        </Route>
-        <Route
-          path="income"
-          element={
-            <Protected>
-              <Income />
-            </Protected>
-          }
-        ></Route>
-        <Route
-          path="expenses"
-          element={
-            <Protected>
-              <Expenses />
-            </Protected>
-          }
-        ></Route>
-        <Route
-          path="investments"
-          element={
-            <Protected>
-              <Investments />
-            </Protected>
-          }
-        ></Route>
-        <Route
-          path="donations"
-          element={
-            <Protected>
-              <Donations />
-            </Protected>
-          }
-        ></Route>
-        <Route
-          path="subscriptions"
-          element={
-            <Protected>
-              <Subscriptions />
-            </Protected>
-          }
-        ></Route>
-        <Route
-          path="settings"
-          element={
-            <Protected>
-              <Settings />
-            </Protected>
-          }
-        ></Route>
-      </Routes>
+          ></Route>
+          <Route
+            path="expenses"
+            element={
+              <Protected>
+                <Expenses />
+              </Protected>
+            }
+          ></Route>
+          <Route
+            path="investments"
+            element={
+              <Protected>
+                <Investments />
+              </Protected>
+            }
+          ></Route>
+          <Route
+            path="donations"
+            element={
+              <Protected>
+                <Donations />
+              </Protected>
+            }
+          ></Route>
+          <Route
+            path="subscriptions"
+            element={
+              <Protected>
+                <Subscriptions />
+              </Protected>
+            }
+          ></Route>
+          <Route
+            path="settings"
+            element={
+              <Protected>
+                <Settings />
+              </Protected>
+            }
+          ></Route>
+        </Routes>
+      </UserDataProvider>
     </AuthContextProvider>
   );
 }

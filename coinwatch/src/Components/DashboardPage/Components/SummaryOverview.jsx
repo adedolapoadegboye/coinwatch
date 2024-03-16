@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { TbBrandCashapp } from "react-icons/tb";
 import { RiBankLine } from "react-icons/ri";
 import { BsCart4 } from "react-icons/bs";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { BiDonateHeart } from "react-icons/bi";
 import { MdSubscriptions } from "react-icons/md";
+import { UserData } from "../../../Context/UserDataContext";
 
 const SummaryOverview = () => {
+  const { readUserData } = UserData();
+
+  // useEffect(() => {
+  //   const userData = readUserData();
+  //   const userIncomeData = userData.user_income_data;
+  //   const incomeSum = Object.values(userIncomeData).reduce(
+  //     (total, income) => total + income,
+  //     0
+  //   );
+  //   console.log(incomeSum);
+  // }, [readUserData]);
+
   return (
     <div>
       {/* Title */}
