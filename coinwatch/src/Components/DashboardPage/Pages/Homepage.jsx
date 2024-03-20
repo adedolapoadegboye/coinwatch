@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import SignOutButton from "../Components/SignoutButton";
 import { UserAuth } from "../../../Context/AuthContext";
@@ -15,15 +16,32 @@ import MobileNavButton from "../Components/MobileNavButton";
 
 const Homepage = () => {
   const { user } = UserAuth();
-  const { registerUserDoc, readUserData, readUserInfo } = UserData();
+  const {
+    registerUserDoc,
+    readUserData,
+    readUserInfo,
+    readUserDataWithinDateRange,
+  } = UserData();
   const navigate = useNavigate();
   const [add, setAdd] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const firstDayOfMonth = new Date();
+  firstDayOfMonth.setDate(1); // Set the date to the first day of the month
+
+  // State to manage the selected start date
+  const [startDate, setStartDate] = useState(firstDayOfMonth);
+
+  // State to manage the selected end date
+  const [endDate, setEndDate] = useState(new Date());
+
+  // console.log(startDate, endDate);
 
   // State to track the current theme
   const [theme, setTheme] = useState("black");
-  const [userData, setUserData] = useState(null);
-  const [userInfo, setUserInfo] = useState(null);
+  const [userData, setUserData] = useState();
+  const [userInfo, setUserInfo] = useState();
+  const [userDataWithinDate, setUserDataWithinDate] = useState();
+  const [submitted, setSubmitted] = useState(false);
   // console.log(theme);
   const dynamicThemeClass = `bg-${theme === "white" ? "white" : "black"}`;
   const dynamicTextClass = `text-${theme === "white" ? "black" : "white"}`;
@@ -31,22 +49,32 @@ const Homepage = () => {
   const handleUserData = async () => {
     const userData = await readUserData();
     if (userData) {
-      console.log("User data:", userData);
+      // console.log("User data:", userData);
       setUserData(userData);
       // Now you can access userData properties like userData.timestamp, userData.user_income_data, etc.
     } else {
-      console.log("No user data found or error occurred.");
+      // console.log("No user data found or error occurred.");
     }
   };
 
   const handleUserInfo = async () => {
     const userInfo = await readUserInfo();
     if (userInfo) {
-      console.log("User Info:", userInfo);
+      // console.log("User Info:", userInfo);
       setUserInfo(userInfo);
       // Now you can access userInfo properties like userData.timestamp, userData.user_income_data, etc.
     } else {
-      console.log("No user data found or error occurred.");
+      // console.log("No user data found or error occurred.");
+    }
+  };
+
+  const handleUserDataWithDateRange = async () => {
+    const data = await readUserDataWithinDateRange(startDate, endDate);
+    if (data) {
+      // console.log(data);
+      setUserDataWithinDate(data);
+    } else {
+      // console.log("No user data found or error occurred");
     }
   };
 
@@ -56,18 +84,24 @@ const Homepage = () => {
       registerUserDoc();
       handleUserData();
       handleUserInfo();
+      handleUserDataWithDateRange();
     } else if (!user) {
       navigate("/");
     }
-  }, [user, navigate, registerUserDoc]);
-  console.log(userData, userInfo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, navigate, registerUserDoc, submitted]);
+  // console.log(userData, userInfo);
 
   // Render the Add component if the 'add' state is true
   const renderAddPage = () => {
     if (add) {
       return (
         <div className="w-screen h-screen absolute z-50">
-          <Add setAdd={setAdd} />
+          <Add
+            setAdd={setAdd}
+            setSubmitted={setSubmitted}
+            submitted={submitted}
+          />
         </div>
       );
     } else {
@@ -132,19 +166,28 @@ const Homepage = () => {
         <div
           className={`flex flex-col w-full lg:w-fit h-fit justify-start lg:hidden ${dynamicTextClass}`}
         >
-          <TimeRange />
+          <TimeRange
+            startDate={startDate}
+            endDate={endDate}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+          />
         </div>
         {/* Render the SummaryOverview component */}
         <div
           className={`flex flex-col w-full h-fit justify-start ${dynamicTextClass}`}
         >
-          <SummaryOverview userData={userData} />
+          <SummaryOverview
+            userData={userData}
+            submitted={submitted}
+            setSubmitted={setSubmitted}
+          />
         </div>
         {/* Render the AnalysisOverview component */}
         <div
           className={`flex flex-col w-full h-full justify-start ${dynamicTextClass}`}
         >
-          <AnalysisOverview />
+          <AnalysisOverview userData={userData} />
         </div>
         <div className="flex justify-between lg:justify-end sticky bottom-0 left-0 z-10">
           <div

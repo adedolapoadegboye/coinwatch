@@ -3,16 +3,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const TimeRange = (props) => {
-  const { theme } = props;
+  const { theme, setStartDate, setEndDate, startDate, endDate } = props;
   // Calculate the first day of the current month
-  const firstDayOfMonth = new Date();
-  firstDayOfMonth.setDate(1); // Set the date to the first day of the month
-
-  // State to manage the selected start date
-  const [startDate, setStartDate] = useState(firstDayOfMonth);
-
-  // State to manage the selected end date
-  const [endDate, setEndDate] = useState(new Date());
 
   // State to manage the visibility of the date picker
   const [dateButton, setDateButton] = useState(false);
@@ -40,6 +32,8 @@ const TimeRange = (props) => {
     // Format the date using toLocaleDateString() method
     return new Date(date).toLocaleDateString("en-US", options);
   };
+
+  // console.log(startDate, endDate);
 
   return (
     <div className="flex flex-col gap-2 w-full justify-center items-center">

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 
 const AnalysisOverview = () => {
@@ -6,7 +7,7 @@ const AnalysisOverview = () => {
   const [expensesOverviewData, setExpensesOverviewData] = useState(null);
 
   // Function to render income overview section
-  const incomeOverview = () => {
+  const incomeOverview = (props) => {
     // Check if income overview data is null
     if (incomeOverviewData === null) {
       return (

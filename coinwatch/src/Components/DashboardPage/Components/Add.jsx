@@ -5,12 +5,13 @@ import EntryTypeExpenses from "../Subcomponents/EntryTypeExpenses";
 import EntryTypeDonations from "../Subcomponents/EntryTypeDonations";
 import EntryTypeSubscriptions from "../Subcomponents/EntryTypeSubscriptions";
 import EntryTypeInvestments from "../Subcomponents/EntryTypeInvestments";
+import { UserData } from "../../../Context/UserDataContext";
 
-const Add = ({ setAdd, add }) => {
+const Add = ({ setAdd, setSubmitted, submitted }) => {
   const [selectedValue, setSelectedValue] = useState("Income"); // State to manage the selected value from the dropdown
   const [dataFromIncomeForm, setDataFromIncomeForm] = useState(null); // State to store data from the income form
   const [handleErrorMessage, setHandleErrorMessage] = useState(false); // State to handle error message display
-
+  const { updateIncomeDoc } = UserData();
   // Function to handle closing the Add component
   const handleClose = () => {
     setAdd(false);
@@ -31,11 +32,13 @@ const Add = ({ setAdd, add }) => {
 
   // Function to handle submitting and closing the Add component
   const handleSubmit = () => {
-    console.log(dataFromIncomeForm);
+    // console.log(dataFromIncomeForm);
     if (dataFromIncomeForm.amount <= 0) {
       setHandleErrorMessage(true);
     } else {
       setHandleErrorMessage(false);
+      setSubmitted(true);
+      updateIncomeDoc(dataFromIncomeForm);
       setAdd(false);
     }
   };

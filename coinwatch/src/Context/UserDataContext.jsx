@@ -9,6 +9,7 @@ import {
   getDoc,
   getDocs,
   serverTimestamp,
+  updateDoc,
 } from "firebase/firestore";
 import { UserAuth } from "./AuthContext";
 
@@ -17,8 +18,7 @@ const UserDataContext = createContext();
 export const UserDataProvider = ({ children }) => {
   // const [userData, setUserData] = useState({});
   const { user } = UserAuth();
-
-  //   console.log(user.displayName, user.email);
+  // console.log(user.displayName, user.email);
 
   const registerUserDoc = async () => {
     try {
@@ -39,28 +39,59 @@ export const UserDataProvider = ({ children }) => {
         });
         await setDoc(doc(db, user.email, "user data"), {
           timestamp: serverTimestamp(), // Add a timestamp field with the current server time
-          user_income_data: {
-            income_type_salary: 0,
-            user_income_passive_income: 0,
-            user_income_gift: 0,
-            user_income_royalty: 0,
-            user_income_freelance: 0,
-            user_income_commission: 0,
-            user_income_pension: 0,
-            user_income_others: 0,
-          },
+          incomes: [
+            {
+              date_received: "",
+              amount: 0,
+              type: "Salary/Wage",
+              notes: "",
+            },
+          ],
           balance: 0,
-          expenses: 0,
-          investments: 0,
-          subscription: 0,
+          expenses: [
+            {
+              date_received: "",
+              name: "",
+              amount: 0,
+              type: "",
+              notes: "",
+            },
+          ],
+          investments: [
+            {
+              date_received: "",
+              name: "",
+              amount: 0,
+              type: "",
+              notes: "",
+            },
+          ],
+          donations: [
+            {
+              date_received: "",
+              name: "",
+              amount: 0,
+              type: "",
+              notes: "",
+            },
+          ],
+          subscriptions: [
+            {
+              date_received: "",
+              name: "",
+              amount: 0,
+              type: "",
+              notes: "",
+            },
+          ],
         });
         console.log("Document Created with ID: ", user.uid);
       } else {
         // If the user document already exists, log a message
-        console.log("User document already exists");
+        // console.log("User document already exists");
       }
     } catch (e) {
-      console.error("Error checking or adding document: ", e);
+      // console.error("Error checking or adding document: ", e);
     }
   };
 
@@ -78,7 +109,7 @@ export const UserDataProvider = ({ children }) => {
         console.log("No such document!");
       }
     } catch (e) {
-      console.error("Error getting data document: ", e);
+      // console.error("Error getting data document: ", e);
     }
   };
 
@@ -95,17 +126,112 @@ export const UserDataProvider = ({ children }) => {
         console.log("No such document!");
       }
     } catch (e) {
-      console.error("Error getting info document: ", e);
+      // console.error("Error getting info document: ", e);
     }
   };
 
-  //   useEffect(() => {
-  //     registerUserDoc();
-  //   }, []); // Empty dependency array ensures the effect runs only once on component mount
+  const readUserDataWithinDateRange = async (start, end) => {
+    try {
+      const userDataRef = doc(db, user.email, "user data");
+      const userDataSnapshot = await getDoc(userDataRef);
+
+      if (userDataSnapshot.exists()) {
+        const userData = userDataSnapshot.data();
+
+        // Filter each array in the "user data" document based on the "date_received" field
+        const filteredIncomes = userData.incomes.filter((income) => {
+          const dateReceived = new Date(income.date_received);
+          return dateReceived >= start && dateReceived <= end;
+        });
+
+        const filteredExpenses = userData.expenses.filter((expense) => {
+          const dateReceived = new Date(expense.date_received);
+          return dateReceived >= start && dateReceived <= end;
+        });
+
+        const filteredInvestments = userData.investments.filter(
+          (investment) => {
+            const dateReceived = new Date(investment.date_received);
+            return dateReceived >= start && dateReceived <= end;
+          }
+        );
+
+        const filteredDonations = userData.donations.filter((donation) => {
+          const dateReceived = new Date(donation.date_received);
+          return dateReceived >= start && dateReceived <= end;
+        });
+
+        const filteredSubscriptions = userData.subscriptions.filter(
+          (subscription) => {
+            const dateReceived = new Date(subscription.date_received);
+            return dateReceived >= start && dateReceived <= end;
+          }
+        );
+
+        // console.log(
+        //   filteredIncomes,
+        //   filteredExpenses,
+        //   filteredInvestments,
+        //   filteredDonations,
+        //   filteredSubscriptions
+        // );
+
+        // Return the filtered data
+        return {
+          incomes: filteredIncomes,
+          expenses: filteredExpenses,
+          investments: filteredInvestments,
+          donations: filteredDonations,
+          subscriptions: filteredSubscriptions,
+        };
+      } else {
+        console.log("No 'user data' document found.");
+        return null;
+      }
+    } catch (error) {
+      // console.error("Error reading user data within date range:", error);
+    }
+  };
+
+  const updateIncomeDoc = async (newData) => {
+    try {
+      const userDocRef = doc(db, user.email, "user data");
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        const userData = userDocSnapshot.data();
+        const updatedIncomes = [
+          ...userData.incomes,
+          {
+            date_received: newData.date,
+            amount: newData.amount,
+            type: newData.category,
+            notes: newData.notes,
+          },
+        ];
+
+        await updateDoc(userDocRef, {
+          incomes: updatedIncomes,
+        });
+
+        // console.log("Document Updated for user: ", user.email);
+      } else {
+        // console.log("User document does not exist");
+      }
+    } catch (e) {
+      // console.error("Error updating document: ", e);
+    }
+  };
 
   return (
     <UserDataContext.Provider
-      value={{ registerUserDoc, readUserData, readUserInfo }}
+      value={{
+        registerUserDoc,
+        readUserData,
+        readUserInfo,
+        readUserDataWithinDateRange,
+        updateIncomeDoc,
+      }}
     >
       {children}
     </UserDataContext.Provider>
