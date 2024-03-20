@@ -152,7 +152,14 @@ const Homepage = () => {
           </h1>
           <div className="flex justify-center items-top gap-4 absolute top-8 lg:top-6 right-6 flex-end">
             <div className="z-5 hidden lg:flex">
-              <TimeRange theme={theme} className={dynamicTextClass} />
+              <TimeRange
+                theme={theme}
+                setStartDate={setStartDate}
+                setEndDate={setEndDate}
+                startDate={startDate}
+                endDate={endDate}
+                className={dynamicTextClass}
+              />
             </div>
             <div>
               <SignOutButton theme={theme} className={dynamicTextClass} />

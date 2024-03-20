@@ -36,7 +36,7 @@ const SignUpVerification = () => {
 
   return (
     <div className="w-screen h-screen">
-      <div className="flex flex-col md:h-[calc(100vh-7vh)] h-[calc(100vh-10vh)] px-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4 gap-6 items-center justify-center">
+      <div className="flex flex-col border-2 md:h-[calc(100vh-7vh)] h-[calc(100vh-10vh)] px-4 w-full md:w-[500] lg:w-[600] xl:w-[700] gap-6 items-center justify-center">
         <div>
           <LandingHeader />
         </div>
@@ -46,14 +46,14 @@ const SignUpVerification = () => {
         </h1>
         <button
           type="submit"
-          className="border w-full py-2 px-2 rounded-lg bg-black text-white"
+          className="border w-[300px] py-2 px-2 rounded-lg bg-black text-white"
           onClick={handleSubmit}
         >
           Continue
         </button>{" "}
         <button
           type="submit"
-          className="border w-full py-2 px-2 rounded-lg bg-black text-white"
+          className="border w-[300px] py-2 px-2 rounded-lg bg-black text-white"
           onClick={handleExit}
         >
           Go back to home page
