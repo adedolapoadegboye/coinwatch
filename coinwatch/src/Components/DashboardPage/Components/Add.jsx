@@ -9,9 +9,19 @@ import { UserData } from "../../../Context/UserDataContext";
 
 const Add = ({ setAdd, setSubmitted, submitted }) => {
   const [selectedValue, setSelectedValue] = useState("Income"); // State to manage the selected value from the dropdown
-  const [dataFromIncomeForm, setDataFromIncomeForm] = useState(null); // State to store data from the income form
+  const [dataFromIncomeForm, setDataFromIncomeForm] = useState(0); // State to store data from the income form
+  const [dataFromExpensesForm, setDataFromExpensesForm] = useState(0); // State to store data from the income form
+  const [dataFromDonationsForm, setDataFromDonationsForm] = useState(0); // State to store data from the income form
+  const [dataFromInvestmentsForm, setDataFromInvestmentsForm] = useState(0); // State to store data from the income form
+  const [dataFromSubscriptionsForm, setDataFromSubscriptionsForm] = useState(0); // State to store data from the income form
   const [handleErrorMessage, setHandleErrorMessage] = useState(false); // State to handle error message display
-  const { updateIncomeDoc } = UserData();
+  const {
+    updateIncomeDoc,
+    updateExpensesDoc,
+    updateDonationsDoc,
+    updateInvestmentsDoc,
+    updateSubscriptionsDoc,
+  } = UserData();
   // Function to handle closing the Add component
   const handleClose = () => {
     setAdd(false);
@@ -33,12 +43,54 @@ const Add = ({ setAdd, setSubmitted, submitted }) => {
   // Function to handle submitting and closing the Add component
   const handleSubmit = () => {
     // console.log(dataFromIncomeForm);
-    if (dataFromIncomeForm.amount <= 0) {
+    // console.log(dataFromExpensesForm);
+    // console.log(dataFromDonationsForm);
+    // console.log(dataFromInvestmentsForm);
+    // console.log(dataFromSubscriptionsForm);
+    if (
+      dataFromIncomeForm.amount <= 0 &&
+      dataFromExpensesForm.amount <= 0 &&
+      dataFromDonationsForm.amount <= 0 &&
+      dataFromInvestmentsForm.amount <= 0 &&
+      dataFromSubscriptionsForm.amount <= 0
+    ) {
       setHandleErrorMessage(true);
-    } else {
+    } else if (dataFromIncomeForm.amount > 0 && selectedValue === "Income") {
       setHandleErrorMessage(false);
       setSubmitted(true);
       updateIncomeDoc(dataFromIncomeForm);
+      setAdd(false);
+    } else if (
+      dataFromExpensesForm.amount > 0 &&
+      selectedValue === "Expenses"
+    ) {
+      setHandleErrorMessage(false);
+      setSubmitted(true);
+      updateExpensesDoc(dataFromExpensesForm);
+      setAdd(false);
+    } else if (
+      dataFromInvestmentsForm.amount > 0 &&
+      selectedValue === "Investments"
+    ) {
+      setHandleErrorMessage(false);
+      setSubmitted(true);
+      updateInvestmentsDoc(dataFromInvestmentsForm);
+      setAdd(false);
+    } else if (
+      dataFromDonationsForm.amount > 0 &&
+      selectedValue === "Donations"
+    ) {
+      setHandleErrorMessage(false);
+      setSubmitted(true);
+      updateDonationsDoc(dataFromDonationsForm);
+      setAdd(false);
+    } else if (
+      dataFromSubscriptionsForm.amount > 0 &&
+      selectedValue === "Subscriptions"
+    ) {
+      setHandleErrorMessage(false);
+      setSubmitted(true);
+      updateSubscriptionsDoc(dataFromSubscriptionsForm);
       setAdd(false);
     }
   };
@@ -61,19 +113,45 @@ const Add = ({ setAdd, setSubmitted, submitted }) => {
     if (selectedValue === "Income") {
       return <EntryTypeIncome handleIncomeForm={handleIncomeForm} />;
     } else if (selectedValue === "Expenses") {
-      return <EntryTypeExpenses />;
+      return <EntryTypeExpenses handleExpensesForm={handleExpensesForm} />;
     } else if (selectedValue === "Investments") {
-      return <EntryTypeInvestments />;
+      return (
+        <EntryTypeInvestments handleInvestmentsForm={handleInvestmentsForm} />
+      );
     } else if (selectedValue === "Donations") {
-      return <EntryTypeDonations />;
+      return <EntryTypeDonations handleDonationsForm={handleDonationsForm} />;
     } else if (selectedValue === "Subscriptions") {
-      return <EntryTypeSubscriptions />;
+      return (
+        <EntryTypeSubscriptions
+          handleSubscriptionsForm={handleSubscriptionsForm}
+        />
+      );
     }
   };
 
   // Function to handle income form data
   const handleIncomeForm = (incomeDataForm) => {
     setDataFromIncomeForm(incomeDataForm);
+  };
+
+  // Function to handle expenses form data
+  const handleExpensesForm = (expensesDataForm) => {
+    setDataFromExpensesForm(expensesDataForm);
+  };
+
+  // Function to handle donations form data
+  const handleDonationsForm = (donationsDataForm) => {
+    setDataFromDonationsForm(donationsDataForm);
+  };
+
+  // Function to handle donations form data
+  const handleInvestmentsForm = (investmentsDataForm) => {
+    setDataFromInvestmentsForm(investmentsDataForm);
+  };
+
+  // Function to handle donations form data
+  const handleSubscriptionsForm = (subscriptionsDataForm) => {
+    setDataFromSubscriptionsForm(subscriptionsDataForm);
   };
 
   return (

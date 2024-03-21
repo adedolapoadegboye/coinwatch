@@ -70,11 +70,12 @@ const Homepage = () => {
 
   const handleUserDataWithDateRange = async () => {
     const data = await readUserDataWithinDateRange(startDate, endDate);
+    console.log(startDate, endDate);
     if (data) {
-      // console.log(data);
+      console.log(data);
       setUserDataWithinDate(data);
     } else {
-      // console.log("No user data found or error occurred");
+      console.log("No user data found or error occurred");
     }
   };
 

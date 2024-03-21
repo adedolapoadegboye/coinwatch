@@ -106,7 +106,7 @@ export const UserDataProvider = ({ children }) => {
         return userData;
       } else {
         // docSnap.data() will be undefined in this case
-        console.log("No such document!");
+        // console.log("No such document!");
       }
     } catch (e) {
       // console.error("Error getting data document: ", e);
@@ -185,7 +185,7 @@ export const UserDataProvider = ({ children }) => {
           subscriptions: filteredSubscriptions,
         };
       } else {
-        console.log("No 'user data' document found.");
+        // console.log("No 'user data' document found.");
         return null;
       }
     } catch (error) {
@@ -223,6 +223,126 @@ export const UserDataProvider = ({ children }) => {
     }
   };
 
+  const updateExpensesDoc = async (newData) => {
+    try {
+      const userDocRef = doc(db, user.email, "user data");
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        const userData = userDocSnapshot.data();
+        const updatedExpenses = [
+          ...userData.expenses,
+          {
+            date_received: newData.date,
+            amount: newData.amount,
+            type: newData.category,
+            notes: newData.notes,
+          },
+        ];
+
+        await updateDoc(userDocRef, {
+          expenses: updatedExpenses,
+        });
+
+        console.log("Document Updated for user: ", user.email);
+      } else {
+        console.log("User document does not exist");
+      }
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
+  };
+
+  const updateDonationsDoc = async (newData) => {
+    try {
+      const userDocRef = doc(db, user.email, "user data");
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        const userData = userDocSnapshot.data();
+        const updatedDonations = [
+          ...userData.donations,
+          {
+            date_received: newData.date,
+            amount: newData.amount,
+            type: newData.category,
+            notes: newData.notes,
+          },
+        ];
+
+        await updateDoc(userDocRef, {
+          donations: updatedDonations,
+        });
+
+        console.log("Document Updated for user: ", user.email);
+      } else {
+        console.log("User document does not exist");
+      }
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
+  };
+
+  const updateInvestmentsDoc = async (newData) => {
+    try {
+      const userDocRef = doc(db, user.email, "user data");
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        const userData = userDocSnapshot.data();
+        const updatedInvestments = [
+          ...userData.investments,
+          {
+            date_received: newData.date,
+            amount: newData.amount,
+            type: newData.category,
+            notes: newData.notes,
+          },
+        ];
+
+        await updateDoc(userDocRef, {
+          investments: updatedInvestments,
+        });
+
+        console.log("Document Updated for user: ", user.email);
+      } else {
+        console.log("User document does not exist");
+      }
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
+  };
+
+  const updateSubscriptionsDoc = async (newData) => {
+    try {
+      const userDocRef = doc(db, user.email, "user data");
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        const userData = userDocSnapshot.data();
+        const updatedSubscriptions = [
+          ...userData.subscriptions,
+          {
+            date_received: newData.date,
+            amount: newData.amount,
+            type: newData.category,
+            notes: newData.notes,
+          },
+        ];
+
+        await updateDoc(userDocRef, {
+          subscriptions: updatedSubscriptions,
+        });
+
+        console.log("Document Updated for user: ", user.email);
+      } else {
+        console.log("User document does not exist");
+      }
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
+  };
+
   return (
     <UserDataContext.Provider
       value={{
@@ -231,6 +351,10 @@ export const UserDataProvider = ({ children }) => {
         readUserInfo,
         readUserDataWithinDateRange,
         updateIncomeDoc,
+        updateExpensesDoc,
+        updateDonationsDoc,
+        updateInvestmentsDoc,
+        updateSubscriptionsDoc,
       }}
     >
       {children}
