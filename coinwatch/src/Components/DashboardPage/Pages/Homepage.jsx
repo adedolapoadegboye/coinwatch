@@ -69,8 +69,8 @@ const Homepage = () => {
   };
 
   const handleUserDataWithDateRange = async () => {
+    // console.log(startDate, endDate, userData);
     const data = await readUserDataWithinDateRange(startDate, endDate);
-    console.log(startDate, endDate);
     if (data) {
       console.log(data);
       setUserDataWithinDate(data);
@@ -90,7 +90,7 @@ const Homepage = () => {
       navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, navigate, registerUserDoc, submitted]);
+  }, [user, navigate, registerUserDoc, submitted, startDate, endDate]);
   // console.log(userData, userInfo);
 
   // Render the Add component if the 'add' state is true
@@ -186,7 +186,7 @@ const Homepage = () => {
           className={`flex flex-col w-full h-fit justify-start ${dynamicTextClass}`}
         >
           <SummaryOverview
-            userData={userData}
+            userData={userDataWithinDate}
             submitted={submitted}
             setSubmitted={setSubmitted}
           />
@@ -195,7 +195,7 @@ const Homepage = () => {
         <div
           className={`flex flex-col w-full h-full justify-start ${dynamicTextClass}`}
         >
-          <AnalysisOverview userData={userData} />
+          <AnalysisOverview userData={userDataWithinDate} />
         </div>
         <div className="flex justify-between lg:justify-end sticky bottom-0 left-0 z-10">
           <div

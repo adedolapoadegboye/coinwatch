@@ -41,7 +41,7 @@ export const UserDataProvider = ({ children }) => {
           timestamp: serverTimestamp(), // Add a timestamp field with the current server time
           incomes: [
             {
-              date_received: "",
+              date: new Date(),
               amount: 0,
               type: "Salary/Wage",
               notes: "",
@@ -50,7 +50,7 @@ export const UserDataProvider = ({ children }) => {
           balance: 0,
           expenses: [
             {
-              date_received: "",
+              date: new Date(),
               name: "",
               amount: 0,
               type: "",
@@ -59,7 +59,7 @@ export const UserDataProvider = ({ children }) => {
           ],
           investments: [
             {
-              date_received: "",
+              date: new Date(),
               name: "",
               amount: 0,
               type: "",
@@ -68,7 +68,7 @@ export const UserDataProvider = ({ children }) => {
           ],
           donations: [
             {
-              date_received: "",
+              date: new Date(),
               name: "",
               amount: 0,
               type: "",
@@ -77,7 +77,7 @@ export const UserDataProvider = ({ children }) => {
           ],
           subscriptions: [
             {
-              date_received: "",
+              date: new Date(),
               name: "",
               amount: 0,
               type: "",
@@ -130,67 +130,74 @@ export const UserDataProvider = ({ children }) => {
     }
   };
 
-  const readUserDataWithinDateRange = async (start, end) => {
-    try {
-      const userDataRef = doc(db, user.email, "user data");
-      const userDataSnapshot = await getDoc(userDataRef);
+  function formatTimestamp(timestamp) {
+    // Extract seconds and nanoseconds from the Timestamp object
+    const { seconds, nanoseconds } = timestamp;
 
-      if (userDataSnapshot.exists()) {
-        const userData = userDataSnapshot.data();
+    // Convert nanoseconds to milliseconds
+    const milliseconds = nanoseconds / 1000000;
 
-        // Filter each array in the "user data" document based on the "date_received" field
-        const filteredIncomes = userData.incomes.filter((income) => {
-          const dateReceived = new Date(income.date_received);
-          return dateReceived >= start && dateReceived <= end;
-        });
+    // Create a Date object using the seconds and milliseconds
+    const date = new Date(seconds * 1000 + milliseconds);
 
-        const filteredExpenses = userData.expenses.filter((expense) => {
-          const dateReceived = new Date(expense.date_received);
-          return dateReceived >= start && dateReceived <= end;
-        });
+    // Format the date string
+    const options = {
+      weekday: "short",
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      timeZoneName: "short",
+    };
+    const dateString = date.toLocaleString("en-US", options);
 
-        const filteredInvestments = userData.investments.filter(
-          (investment) => {
-            const dateReceived = new Date(investment.date_received);
-            return dateReceived >= start && dateReceived <= end;
-          }
-        );
+    return dateString;
+  }
 
-        const filteredDonations = userData.donations.filter((donation) => {
-          const dateReceived = new Date(donation.date_received);
-          return dateReceived >= start && dateReceived <= end;
-        });
+  const readUserDataWithinDateRange = async (startDate, endDate) => {
+    const userData = await readUserData();
+    // Filter incomes within the date range
+    const filteredIncomes = userData.incomes.filter((income) => {
+      const incomeDate = new Date(formatTimestamp(income.date));
+      return incomeDate >= startDate && incomeDate <= endDate;
+    });
 
-        const filteredSubscriptions = userData.subscriptions.filter(
-          (subscription) => {
-            const dateReceived = new Date(subscription.date_received);
-            return dateReceived >= start && dateReceived <= end;
-          }
-        );
+    // Filter expenses within the date range
+    const filteredExpenses = userData.expenses.filter((expense) => {
+      const expenseDate = new Date(formatTimestamp(expense.date));
+      return expenseDate >= startDate && expenseDate <= endDate;
+    });
 
-        // console.log(
-        //   filteredIncomes,
-        //   filteredExpenses,
-        //   filteredInvestments,
-        //   filteredDonations,
-        //   filteredSubscriptions
-        // );
+    // Filter investments within the date range
+    const filteredInvestments = userData.investments.filter((investment) => {
+      const investmentDate = new Date(formatTimestamp(investment.date));
+      return investmentDate >= startDate && investmentDate <= endDate;
+    });
 
-        // Return the filtered data
-        return {
-          incomes: filteredIncomes,
-          expenses: filteredExpenses,
-          investments: filteredInvestments,
-          donations: filteredDonations,
-          subscriptions: filteredSubscriptions,
-        };
-      } else {
-        // console.log("No 'user data' document found.");
-        return null;
+    // Filter donations within the date range
+    const filteredDonations = userData.donations.filter((donation) => {
+      const donationDate = new Date(formatTimestamp(donation.date));
+      return donationDate >= startDate && donationDate <= endDate;
+    });
+
+    // Filter subscriptions within the date range
+    const filteredSubscriptions = userData.subscriptions.filter(
+      (subscription) => {
+        const subscriptionDate = new Date(formatTimestamp(subscription.date));
+        return subscriptionDate >= startDate && subscriptionDate <= endDate;
       }
-    } catch (error) {
-      // console.error("Error reading user data within date range:", error);
-    }
+    );
+
+    // Return the filtered data
+    return {
+      incomes: filteredIncomes,
+      expenses: filteredExpenses,
+      investments: filteredInvestments,
+      donations: filteredDonations,
+      subscriptions: filteredSubscriptions,
+    };
   };
 
   const updateIncomeDoc = async (newData) => {
@@ -203,7 +210,7 @@ export const UserDataProvider = ({ children }) => {
         const updatedIncomes = [
           ...userData.incomes,
           {
-            date_received: newData.date,
+            date: newData.date,
             amount: newData.amount,
             type: newData.category,
             notes: newData.notes,
@@ -233,7 +240,7 @@ export const UserDataProvider = ({ children }) => {
         const updatedExpenses = [
           ...userData.expenses,
           {
-            date_received: newData.date,
+            date: newData.date,
             amount: newData.amount,
             type: newData.category,
             notes: newData.notes,
@@ -263,7 +270,7 @@ export const UserDataProvider = ({ children }) => {
         const updatedDonations = [
           ...userData.donations,
           {
-            date_received: newData.date,
+            date: newData.date,
             amount: newData.amount,
             type: newData.category,
             notes: newData.notes,
@@ -293,7 +300,7 @@ export const UserDataProvider = ({ children }) => {
         const updatedInvestments = [
           ...userData.investments,
           {
-            date_received: newData.date,
+            date: newData.date,
             amount: newData.amount,
             type: newData.category,
             notes: newData.notes,
@@ -323,7 +330,7 @@ export const UserDataProvider = ({ children }) => {
         const updatedSubscriptions = [
           ...userData.subscriptions,
           {
-            date_received: newData.date,
+            date: newData.date,
             amount: newData.amount,
             type: newData.category,
             notes: newData.notes,
