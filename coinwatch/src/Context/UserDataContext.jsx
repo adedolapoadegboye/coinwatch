@@ -158,46 +158,50 @@ export const UserDataProvider = ({ children }) => {
 
   const readUserDataWithinDateRange = async (startDate, endDate) => {
     const userData = await readUserData();
-    // Filter incomes within the date range
-    const filteredIncomes = userData.incomes.filter((income) => {
-      const incomeDate = new Date(formatTimestamp(income.date));
-      return incomeDate >= startDate && incomeDate <= endDate;
-    });
+    if (userData) {
+      // Filter incomes within the date range
+      const filteredIncomes = userData.incomes.filter((income) => {
+        const incomeDate = new Date(formatTimestamp(income.date));
+        return incomeDate >= startDate && incomeDate <= endDate;
+      });
 
-    // Filter expenses within the date range
-    const filteredExpenses = userData.expenses.filter((expense) => {
-      const expenseDate = new Date(formatTimestamp(expense.date));
-      return expenseDate >= startDate && expenseDate <= endDate;
-    });
+      // Filter expenses within the date range
+      const filteredExpenses = userData.expenses.filter((expense) => {
+        const expenseDate = new Date(formatTimestamp(expense.date));
+        return expenseDate >= startDate && expenseDate <= endDate;
+      });
 
-    // Filter investments within the date range
-    const filteredInvestments = userData.investments.filter((investment) => {
-      const investmentDate = new Date(formatTimestamp(investment.date));
-      return investmentDate >= startDate && investmentDate <= endDate;
-    });
+      // Filter investments within the date range
+      const filteredInvestments = userData.investments.filter((investment) => {
+        const investmentDate = new Date(formatTimestamp(investment.date));
+        return investmentDate >= startDate && investmentDate <= endDate;
+      });
 
-    // Filter donations within the date range
-    const filteredDonations = userData.donations.filter((donation) => {
-      const donationDate = new Date(formatTimestamp(donation.date));
-      return donationDate >= startDate && donationDate <= endDate;
-    });
+      // Filter donations within the date range
+      const filteredDonations = userData.donations.filter((donation) => {
+        const donationDate = new Date(formatTimestamp(donation.date));
+        return donationDate >= startDate && donationDate <= endDate;
+      });
 
-    // Filter subscriptions within the date range
-    const filteredSubscriptions = userData.subscriptions.filter(
-      (subscription) => {
-        const subscriptionDate = new Date(formatTimestamp(subscription.date));
-        return subscriptionDate >= startDate && subscriptionDate <= endDate;
-      }
-    );
+      // Filter subscriptions within the date range
+      const filteredSubscriptions = userData.subscriptions.filter(
+        (subscription) => {
+          const subscriptionDate = new Date(formatTimestamp(subscription.date));
+          return subscriptionDate >= startDate && subscriptionDate <= endDate;
+        }
+      );
 
-    // Return the filtered data
-    return {
-      incomes: filteredIncomes,
-      expenses: filteredExpenses,
-      investments: filteredInvestments,
-      donations: filteredDonations,
-      subscriptions: filteredSubscriptions,
-    };
+      // Return the filtered data
+      return {
+        incomes: filteredIncomes,
+        expenses: filteredExpenses,
+        investments: filteredInvestments,
+        donations: filteredDonations,
+        subscriptions: filteredSubscriptions,
+      };
+    } else {
+      console.log("Loading user data");
+    }
   };
 
   const updateIncomeDoc = async (newData) => {

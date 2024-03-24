@@ -27,14 +27,13 @@ const Homepage = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
   const firstDayOfMonth = new Date();
   firstDayOfMonth.setDate(1); // Set the date to the first day of the month
+  firstDayOfMonth.setHours(0, 0, 0, 0); // Set time component to 12:00 AM
 
   // State to manage the selected start date
   const [startDate, setStartDate] = useState(firstDayOfMonth);
 
   // State to manage the selected end date
   const [endDate, setEndDate] = useState(new Date());
-
-  // console.log(startDate, endDate);
 
   // State to track the current theme
   const [theme, setTheme] = useState("black");
@@ -72,10 +71,10 @@ const Homepage = () => {
     // console.log(startDate, endDate, userData);
     const data = await readUserDataWithinDateRange(startDate, endDate);
     if (data) {
-      console.log(data);
+      // console.log(data);
       setUserDataWithinDate(data);
     } else {
-      console.log("No user data found or error occurred");
+      // console.log("No user data found or error occurred");
     }
   };
 
@@ -128,7 +127,7 @@ const Homepage = () => {
 
   return (
     <div
-      className={`flex noto-sans-1 w-screen lg:h-screen lg:fixed px-2 py-4 lg:py-2 relative ${dynamicThemeClass}`}
+      className={`flex noto-sans-1 w-screen h-fit lg:h-screen lg:fixed px-2 py-4 lg:py-2 relative ${dynamicThemeClass}`}
     >
       {/* Render the Navbar component */}
       <div

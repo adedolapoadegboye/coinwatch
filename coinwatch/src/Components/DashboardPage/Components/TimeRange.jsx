@@ -13,7 +13,9 @@ const TimeRange = (props) => {
   const handleDateChange = (dates) => {
     const [start, end] = dates;
     setStartDate(start);
+    console.log(start);
     setEndDate(end);
+    console.log(end);
   };
 
   // Function to toggle date picker visibility
