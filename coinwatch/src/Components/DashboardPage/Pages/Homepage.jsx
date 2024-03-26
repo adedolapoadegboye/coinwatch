@@ -21,6 +21,7 @@ const Homepage = () => {
     readUserData,
     readUserInfo,
     readUserDataWithinDateRange,
+    updateUserSettings,
   } = UserData();
   const navigate = useNavigate();
   const [add, setAdd] = useState(false);
@@ -36,7 +37,10 @@ const Homepage = () => {
   const [endDate, setEndDate] = useState(new Date());
 
   // State to track the current theme
-  const [theme, setTheme] = useState("black");
+  const [theme, setTheme] = useState(() => {
+    // Retrieve theme from localStorage if available, otherwise default to "black"
+    return localStorage.getItem("theme") || "black";
+  });
   const [userData, setUserData] = useState();
   const [userInfo, setUserInfo] = useState();
   const [userDataWithinDate, setUserDataWithinDate] = useState();
@@ -61,6 +65,9 @@ const Homepage = () => {
     if (userInfo) {
       // console.log("User Info:", userInfo);
       setUserInfo(userInfo);
+      console.log(userInfo.user_settings.theme);
+      setTheme(userInfo.user_settings.theme);
+      localStorage.setItem("theme", userInfo.user_settings.theme);
       // Now you can access userInfo properties like userData.timestamp, userData.user_income_data, etc.
     } else {
       // console.log("No user data found or error occurred.");
@@ -85,11 +92,13 @@ const Homepage = () => {
       handleUserData();
       handleUserInfo();
       handleUserDataWithDateRange();
+      updateUserSettings(theme);
+      console.log(theme);
     } else if (!user) {
       navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, navigate, registerUserDoc, submitted, startDate, endDate]);
+  }, [user, navigate, registerUserDoc, submitted, startDate, endDate, theme]);
   // console.log(userData, userInfo);
 
   // Render the Add component if the 'add' state is true

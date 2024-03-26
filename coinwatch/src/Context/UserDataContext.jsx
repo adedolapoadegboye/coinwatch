@@ -354,6 +354,17 @@ export const UserDataProvider = ({ children }) => {
     }
   };
 
+  const updateUserSettings = async (theme) => {
+    try {
+      await updateDoc(doc(db, user.email, "user info"), {
+        "user_settings.theme": theme, // Update the theme field in user_settings
+      });
+      // console.log("Theme updated successfully");
+    } catch (error) {
+      // console.error("Error updating theme:", error);
+    }
+  };
+
   return (
     <UserDataContext.Provider
       value={{
@@ -366,6 +377,7 @@ export const UserDataProvider = ({ children }) => {
         updateDonationsDoc,
         updateInvestmentsDoc,
         updateSubscriptionsDoc,
+        updateUserSettings,
       }}
     >
       {children}

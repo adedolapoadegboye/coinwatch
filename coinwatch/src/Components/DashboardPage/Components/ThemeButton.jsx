@@ -6,13 +6,11 @@ const ThemeButton = (props) => {
   // Function to handle theme change to dark
   const handleBlackTheme = () => {
     setTheme("black");
-    console.log(theme);
   };
 
   // Function to handle theme change to light
   const handleWhiteTheme = () => {
     setTheme("white");
-    console.log(theme);
   };
 
   // Function to conditionally render the button based on the current theme
@@ -28,7 +26,7 @@ const ThemeButton = (props) => {
       // Render button for light theme
       return (
         <button onClick={handleWhiteTheme}>
-          <FaRegMoon size={20} className="hover:scale-125" />
+          <FaRegMoon size={20} color="white" className="hover:scale-125" />
         </button>
       );
     }

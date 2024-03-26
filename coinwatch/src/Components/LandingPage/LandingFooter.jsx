@@ -11,7 +11,7 @@ const LandingFooter = () => {
   return (
     <footer className="flex justify-evenly border-t-2 pt-4 noto-sans-1 font-normal">
       <div>
-        <p className="text-sm">&#169; Copyright 2024, Coinwatch.io</p>
+        <p className="text-sm">&#169; Copyright 2024, CoinwatchPro.com</p>
       </div>
       <div className="flex gap-2">
         <a
