@@ -65,7 +65,7 @@ const Homepage = () => {
     if (userInfo) {
       // console.log("User Info:", userInfo);
       setUserInfo(userInfo);
-      console.log(userInfo.user_settings.theme);
+      // console.log(userInfo.user_settings.theme);
       setTheme(userInfo.user_settings.theme);
       localStorage.setItem("theme", userInfo.user_settings.theme);
       // Now you can access userInfo properties like userData.timestamp, userData.user_income_data, etc.
@@ -93,7 +93,7 @@ const Homepage = () => {
       handleUserInfo();
       handleUserDataWithDateRange();
       updateUserSettings(theme);
-      console.log(theme);
+      // console.log(theme);
     } else if (!user) {
       navigate("/");
     }
